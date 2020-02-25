@@ -1,7 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/add-product', (req, res, next)=>{
     console.log('In the second Middleware');
@@ -9,7 +11,7 @@ app.use('/add-product', (req, res, next)=>{
 })
 
 app.use('/product', (req, res, next)=> {
-
+    console.log(req.body);
     res.redirect('/');
 });
 
