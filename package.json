@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Olanetsoft/Learn-Node/issues"
   },
-  "homepage": "https://github.com/Olanetsoft/Learn-Node#readme"
+  "homepage": "https://github.com/Olanetsoft/Learn-Node#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }
