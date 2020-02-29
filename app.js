@@ -3,18 +3,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
+
+//set this value globally in our application
+app.set('view engine', 'pug');
+app.set('views', 'views')
+
+
+//adding the route configuration
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
+//use bodyparser to grab the body sent via nodejs
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
 
- 
 
-
+//This section below uses the declare route to navigate to the pages whenever a request is sent
 app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
+
+//This section below returns the default 404page when a path that doesnt exist is hit
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'views', 'pageNotFound.html'));
 })
