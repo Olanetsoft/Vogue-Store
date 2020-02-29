@@ -9,7 +9,7 @@ const products = [];
 
 router.get('/add-product', (req, res, next)=>{
     console.log('In the second Middleware via Admin.js');
-    res.render('add-product', {pageTitle: 'Add Product'})
+    res.render('add-product', {pageTitle: 'Add Product', path: '/admin/add-product'})
 })
 
 router.post('/add-product', (req, res, next)=> {
