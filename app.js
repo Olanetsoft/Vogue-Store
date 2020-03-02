@@ -17,7 +17,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 //use bodyParser to grab the body sent via nodejs
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
