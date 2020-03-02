@@ -2,6 +2,10 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+//Importing the error controller
+const errorController = require('./controllers/error');
+
+
 const app = express();
 
 //set this value globally in our application
@@ -26,8 +30,6 @@ app.use(shopRoutes);
 
 
 //This section below returns the default 404page when a path that doesnt exist is hit
-app.use((req, res, next) => {
-    res.status(404).render('404', {pageTitle: 'Error !'})
-})
+app.use(errorController.get404Page);
 
 app.listen(3000);
