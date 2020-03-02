@@ -10,7 +10,7 @@ app.set('views', 'views')
 
 
 //adding the route configuration
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 //use bodyParser to grab the body sent via nodejs
@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //This section below uses the declare route to navigate to the pages whenever a request is sent
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 
