@@ -13,7 +13,13 @@ exports.getProducts = (req, res, next) => {
 exports.getProductById = (req, res, next) => {
   //This gets the product request query params from shop route
   const theProdId = req.params.productId;
-  
+  Product.findProductById(theProdId, product => {
+    res.render('shop/product-detail', {
+      product: product,
+      pageTitle: product.title,
+      path: '/products'
+    });
+  });
 };
 
 exports.getIndex = (req, res, next) =>{
