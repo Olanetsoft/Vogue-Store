@@ -21,6 +21,23 @@ exports.getAddedProduct = (req, res, next) => {
     res.redirect('/');
   };
 
+  exports.postEditProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedPrice = req.body.price;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedDesc = req.body.description;
+    const updatedProduct = new Product(
+      prodId,
+      updatedTitle,
+      updatedImageUrl,
+      updatedDesc,
+      updatedPrice
+    );
+    updatedProduct.save();
+    res.redirect('/admin/products');
+  };
+    
 
   exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit;
@@ -28,7 +45,7 @@ exports.getAddedProduct = (req, res, next) => {
       return res.redirect('/');
     }
     const prodId = req.params.productId;
-    Product.findById(prodId, product => {
+    Product.findProductById(prodId, product => {
       if (!product) {
         return res.redirect('/');
       }
