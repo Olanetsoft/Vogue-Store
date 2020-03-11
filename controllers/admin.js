@@ -1,11 +1,13 @@
 const Product = require('../models/product');
 
 exports.getAddedProduct = (req, res, next) => {
-    res.render('admin/add-product', {
-      pageTitle: 'Add Product',
-      path: '/admin/add-product'
-    });
-  };
+  res.render('admin/edit-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    editing: false
+  });
+};
+
   
   exports.postAddedProduct = (req, res, next) => {
     //this section below get the request details from the form
@@ -18,6 +20,27 @@ exports.getAddedProduct = (req, res, next) => {
     product.save();
     res.redirect('/');
   };
+
+
+  exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit;
+    if (!editMode) {
+      return res.redirect('/');
+    }
+    const prodId = req.params.productId;
+    Product.findById(prodId, product => {
+      if (!product) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: product
+      });
+    });
+  };
+
 
   exports.getProductsList = (req, res, next) =>{
     Product.fetchAll(products => {
