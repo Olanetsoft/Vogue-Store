@@ -14,8 +14,10 @@ router.get('/products-list', adminController.getProductsList);
 //admin/add-product => POST
 router.post('/add-product', adminController.postAddedProduct);
 
+//admin/edit-product => GET BY QUERY PARAMS
 router.get('/edit-product/:productId', adminController.getEditProduct);
 
+//admin/edit-product => POST
 router.post('/edit-product', adminController.postEditProduct);
 
 module.exports = router;
