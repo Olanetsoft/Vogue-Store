@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 //Importing the error controller
 const errorController = require('./controllers/error');
 
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -32,5 +32,11 @@ app.use(shopRoutes);
 
 //This section below returns the default 404page when a path that doesn't exist is hit
 app.use(errorController.get404Page);
+
+
+//this sync model to database by creating a table
+sequelize.sync()
+.then()
+.catch(err => console.log(err))
 
 app.listen(3000);
