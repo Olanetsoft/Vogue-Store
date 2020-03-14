@@ -2,9 +2,8 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
 
-//Set the model of the data type
 const Product = sequelize.define('product', {
-  id:{
+  id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,

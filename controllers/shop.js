@@ -16,15 +16,25 @@ exports.getProducts = (req, res, next) => {
 exports.getProductById = (req, res, next) => {
   //This gets the product request query params from shop route
   const theProdId = req.params.productId;
-  Product.findProductById(theProdId)
-    .then(([product])=>{
+Product.findAll({ where: { id: theProdId } })
+    .then(products => {
       res.render('shop/product-detail', {
-        product: product[0],
-        pageTitle: product.title,
+        product: products[0],
+        pageTitle: products[0].title,
         path: '/products'
       });
     })
     .catch(err => console.log(err));
+
+  // Product.findById()
+  //   .then(product=>{
+  //     res.render('shop/product-detail', {
+  //       product: product,
+  //       pageTitle: product.title,
+  //       path: '/products'
+  //     });
+  //   })
+  //   .catch(err => console.log(err));
 };
 
 exports.getIndex = (req, res, next) =>{
