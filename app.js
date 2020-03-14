@@ -34,9 +34,12 @@ app.use(shopRoutes);
 app.use(errorController.get404Page);
 
 
-//this sync model to database by creating a table
-sequelize.sync()
-.then()
+//this sync model to database by creating a table if it does not exist
+sequelize
+.sync()
+.then(result =>{
+    
+})
 .catch(err => console.log(err))
 
 app.listen(3000);
