@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 //Importing the error controller
 const errorController = require('./controllers/error');
 
+const db = require('./util/database');
+
 const app = express();
 
 //set this value globally in our application
@@ -15,6 +17,10 @@ app.set('views', 'views')
 //adding the route configuration
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+
+
+db.execute('SELECT * FROM products').then().catch();
+
 
 //use bodyParser to grab the body sent via nodejs
 app.use(bodyParser.urlencoded({ extended: false }));
