@@ -43,14 +43,26 @@ Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product);
 
 
-
 //this sync model to database by creating a table if it does not exist
 sequelize
-.sync({force: true})
-.then(result =>{
-    //console.log(result)
+  //.sync({ force: true })
+  .sync()
+  .then(result => {
+    return User.findById(1);
+    // console.log(result);
+  })
+  .then(user => {
+    if (!user) {
+      return User.create({ name: 'Idris', email: 'test@test.com' });
+    }
+    return user;
+  })
+  .then(user => {
+    //console.log(user);
     app.listen(3000);
-})
-.catch(err => console.log(err))
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 
