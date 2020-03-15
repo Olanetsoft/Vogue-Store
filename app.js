@@ -7,9 +7,11 @@ const errorController = require('./controllers/error');
 
 const sequelize = require('./util/database');
 
-//Importing models of product and user
+//Importing models of product,user,cart and cart Item
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 const app = express();
 
@@ -51,12 +53,17 @@ app.use(errorController.get404Page);
 Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 //This is optional but can also be stated because a user can have many product
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, {through: CartItem});
+Product.belongsToMany(Cart,  {through: CartItem});
+
 
 
 //this sync model to database by creating a table if it does not exist
 sequelize
-  //.sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  //.sync()
   .then(result => {
     return User.findById(1);
     // console.log(result);
