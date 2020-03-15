@@ -7,6 +7,10 @@ const errorController = require('./controllers/error');
 
 const sequelize = require('./util/database');
 
+//Importing models of product and user
+const Product = require('./models/product');
+const User = require('./models/user');
+
 const app = express();
 
 //set this value globally in our application
@@ -33,13 +37,20 @@ app.use(shopRoutes);
 //This section below returns the default 404page when a path that doesn't exist is hit
 app.use(errorController.get404Page);
 
+//This add relations between users and product
+Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+//This is optional but can also be stated because a user can have many product
+User.hasMany(Product);
+
+
 
 //this sync model to database by creating a table if it does not exist
 sequelize
-.sync()
+.sync({force: true})
 .then(result =>{
     //console.log(result)
+    app.listen(3000);
 })
 .catch(err => console.log(err))
 
-app.listen(3000);
+
