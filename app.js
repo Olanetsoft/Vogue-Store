@@ -28,6 +28,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Retrieving user by Id and it only runs for incoming request
+app.use((req, res, next) =>{
+    User.findById(1)
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch(err => console.log(err))
+});
+
 
 //This section below uses the declare route to navigate to the pages whenever a request is sent
 app.use('/admin', adminRoutes);
