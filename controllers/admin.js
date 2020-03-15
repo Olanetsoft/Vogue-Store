@@ -8,7 +8,7 @@ exports.getAddedProduct = (req, res, next) => {
   });
 };
 
-
+//This create a new product item into the database
 exports.postAddedProduct = (req, res, next) => {
   //this section below get the request details from the form
   const title = req.body.title;
@@ -22,11 +22,12 @@ exports.postAddedProduct = (req, res, next) => {
     description: description
   })
   .then(result => {
-
+    res.redirect('/admin/products-list')
   })
   .catch(err => console.log(err));
 };
 
+//This returns product to be edited by Id
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
@@ -83,9 +84,17 @@ exports.getProductsList = (req, res, next) => {
   .catch(err => console.log(err));
 };
 
-
+//This deletes product by id 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteById(prodId);
-  res.redirect('/admin/products-list');
+  Product.findAll({ where: { id: prodId } })
+  .then(product => {
+    return product[0].destroy();
+  })
+  .then(result => {
+    console.log("PRODUCT DESTROYED!")
+    res.redirect('/admin/products-list');
+  })
+  .catch(err => console.log(err)) 
+  
 }
