@@ -62,8 +62,8 @@ Product.belongsToMany(Cart,  {through: CartItem});
 
 //this sync model to database by creating a table if it does not exist
 sequelize
-  .sync({ force: true })
-  //.sync()
+  //.sync({ force: true })
+  .sync()
   .then(result => {
     return User.findById(1);
     // console.log(result);
@@ -76,6 +76,9 @@ sequelize
   })
   .then(user => {
     //console.log(user);
+    return user.createCart();
+  })
+  .then(cart => {
     app.listen(3000);
   })
   .catch(err => {
