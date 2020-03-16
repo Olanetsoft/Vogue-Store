@@ -140,7 +140,7 @@ exports.postOrder = (req, res, next) => {
       return fetchedCart.setProducts(null)
     })
     .then(result => {
-      res.redirect('/order');
+      res.redirect('/orders');
     })
     .catch(err => console.log(err));
   })
@@ -149,7 +149,7 @@ exports.postOrder = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   req.user
-  .getOrders()
+  .getOrders({include: ['products']})
   .then(orders => {
     res.render('shop/orders', {
       path: '/orders',
@@ -161,9 +161,3 @@ exports.getOrders = (req, res, next) => {
   
 };
 
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout', {
-    path: '/checkout',
-    pageTitle: 'Checkout'
-  });
-}; 
