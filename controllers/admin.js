@@ -15,18 +15,14 @@ exports.postAddedProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  req.user
-  .createProduct({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description,
-  })
+  const product = new Product(title, imageUrl, price, description, product)
+  save()
   .then(result => {
     res.redirect('/admin/products-list')
   })
   .catch(err => console.log(err));
 };
+
 
 //This returns product to be edited by Id
 exports.getEditProduct = (req, res, next) => {
