@@ -8,9 +8,11 @@ const errorController = require('./controllers/error');
 //Import mongo connection
 const mongoConnect = require('./util/database').mongoConnect;
 
+//Importing User
+const User = require('./models/user');
+
+
 const app = express();
-
-
 
 //set this value globally in our application
 app.set('view engine', 'ejs');
@@ -32,12 +34,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Retrieving user by Id and it only runs for incoming request
 app.use((req, res, next) =>{
-    // User.findById(1)
-    // .then(user => {
-    //     req.user = user;
-    //     next();
-    // })
-    // .catch(err => console.log(err))
+    User.findById('5e70d0c8e48f57485c1152a7')
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch(err => console.log(err))
     next();
 });
 
