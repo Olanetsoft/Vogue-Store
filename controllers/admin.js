@@ -72,18 +72,18 @@ exports.postAddedProduct = (req, res, next) => {
 // };
 
 
-// exports.getProductsList = (req, res, next) => {
-//   req.user
-//   .getProducts()
-//   .then(products => {
-//     res.render('admin/products-list', {
-//       prods: products,
-//       pageTitle: 'Admin Products',
-//       path: 'admin/products-list'
-//     });
-//   })
-//   .catch(err => console.log(err));
-// };
+exports.getProductsList = (req, res, next) => {
+  Product
+  .fetchAll()
+  .then(products => {
+    res.render('admin/products-list', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: 'admin/products-list'
+    });
+  })
+  .catch(err => console.log(err));
+};
 
 // //This deletes product by id 
 // exports.postDeleteProduct = (req, res, next) => {
