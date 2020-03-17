@@ -8,7 +8,7 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = new mongodb.ObjectId(_id);
+    this._id = _id ? new mongodb.ObjectId(_id) : null;
 
   }
 
