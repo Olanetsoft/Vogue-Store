@@ -8,7 +8,7 @@ const errorController = require('./controllers/error');
 
 
 //Importing User
-//const User = require('./models/user');
+const User = require('./models/user');
 
 
 const app = express();
@@ -32,14 +32,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Retrieving user by Id and it only runs for incoming request
-// app.use((req, res, next) => {
-//   User.findById('5e70d0c8e48f57485c1152a7')
-//     .then(user => {
-//       req.user = new User(user.name, user.email, user.cart, user._id);
-//       next();
-//     })
-//     .catch(err => console.log(err));
-// });
+app.use((req, res, next) => {
+  User.findById('5e7233c063abc79acc96796d')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 
 
 //This section below uses the declare route to navigate to the pages whenever a request is sent
@@ -55,9 +55,20 @@ mongoose
     'mongodb+srv://idris:Hayindehdb2019@cluster0-sszay.mongodb.net/shop?retryWrites=true&w=majority'
   )
   .then(result => {
-    app.listen(3000)
-  })
-  .catch(
-    err => {
-      console.log(err)
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: 'Max',
+          email: 'max@test.com',
+          cart: {
+            items: []
+          }
+        });
+        user.save();
+      }
     });
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log(err);
+  });
