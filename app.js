@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 //Importing the error controller
 const errorController = require('./controllers/error');
 
-//Import mongo connection
-const mongoConnect = require('./util/database').mongoConnect;
 
 //Importing User
 const User = require('./models/user');
