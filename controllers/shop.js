@@ -17,16 +17,6 @@ exports.getProducts = (req, res, next) => {
 exports.getProductById = (req, res, next) => {
   //This gets the product request query params from shop route
   const theProdId = req.params.productId;
-  // Product.findAll({ where: { id: theProdId } })
-  //     .then(products => {
-  //       res.render('shop/product-detail', {
-  //         product: products[0],
-  //         pageTitle: products[0].title,
-  //         path: '/products'
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-
   Product.findById(theProdId)
     .then(product => {
       res.render('shop/product-detail', {
@@ -37,6 +27,7 @@ exports.getProductById = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
 
 exports.getIndex = (req, res, next) => {
   Product.find()//mongoose
