@@ -97,7 +97,7 @@ exports.getProductsList = (req, res, next) => {
 //This deletes product by id 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteById(prodId)
+  Product.findByIdAndRemove(prodId)
     .then(() => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products-list');
