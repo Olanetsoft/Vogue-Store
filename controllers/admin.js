@@ -10,6 +10,7 @@ exports.getAddedProduct = (req, res, next) => {
   });
 };
 
+
 //This create a new product item into the database
 exports.postAddedProduct = (req, res, next) => {
   //this section below get the request details from the form
@@ -85,6 +86,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.getProductsList = (req, res, next) => {
   Product
     .find()//mongoose
+    //.populate('userId')
     .then(products => {
       res.render('admin/products-list', {
         prods: products,
@@ -94,6 +96,7 @@ exports.getProductsList = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
 
 //This deletes product by id 
 exports.postDeleteProduct = (req, res, next) => {
