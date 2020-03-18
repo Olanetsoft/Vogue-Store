@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 //Importing the error controller
 const errorController = require('./controllers/error');
@@ -33,11 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Retrieving user by Id and it only runs for incoming request
-app.use((req, res, next) =>{
-    User.findById('5e70d0c8e48f57485c1152a7')
+app.use((req, res, next) => {
+  User.findById('5e70d0c8e48f57485c1152a7')
     .then(user => {
-        req.user = new User(user.name, user.email, user.cart, user._id);
-        next();
+      req.user = new User(user.name, user.email, user.cart, user._id);
+      next();
     })
     .catch(err => console.log(err));
 });
@@ -51,6 +52,14 @@ app.use(shopRoutes);
 //This section below returns the default 404page when a path that doesn't exist is hit
 app.use(errorController.get404Page);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    'mongodb+srv://idris:Hayindehdb2019@cluster0-sszay.mongodb.net/test?retryWrites=true&w=majority'
+  )
+  .then(result => {
+    app.listen(3000)
+  })
+  .catch(
+    err => {
+      console.log(err)
+    });
