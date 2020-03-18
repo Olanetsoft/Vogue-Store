@@ -18,19 +18,19 @@ exports.postAddedProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const product = new Product(
-    title,
-    price,
-    description,
-    imageUrl,
-    null,
-    req.user._id
+    { title: title,
+      price: price, 
+      description: description,
+      imageUrl: imageUrl
+    }
   );
   product
-    .save()
+    .save()//from mongoose
     .then(result => {
+      console.log('Created Product')
       res.redirect('/admin/products-list')
     })
-    .catch(err => console.log(err));
+    .catch(err => {console.log(err)});
 };
 
 
