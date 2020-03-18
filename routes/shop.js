@@ -6,10 +6,9 @@ const express = require('express');
 const router = express.Router();
 
 
+router.get('/', shopController.getIndex);
 
-// router.get('/', shopController.getIndex);
-
-// router.get('/products', shopController.getProducts);
+router.get('/products', shopController.getProducts);
 
 // router.get('/products/:productId', shopController.getProductById);
 

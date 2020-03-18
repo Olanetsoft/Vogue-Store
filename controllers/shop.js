@@ -3,7 +3,7 @@ const Order = require('../models/order');
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()//mongoose
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
@@ -39,7 +39,7 @@ exports.getProductById = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()//mongoose
     .then(products => {
       res.render('shop/index', {
         prods: products,
