@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session)
 
 //Importing the error controller
 const errorController = require('./controllers/error');
@@ -12,7 +13,14 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 
+const MONGODB_URI = 'mongodb+srv://idris:Hayindehdb2019@cluster0-sszay.mongodb.net/shop?retryWrites=true&w=majority';
+
 const app = express();
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'sessions'
+});//initialize to execute mongodb store as a constructor
+
 
 //set this value globally in our application
 app.set('view engine', 'ejs');
@@ -37,7 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'my secret', //in production this should be a long string value
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: store
 }));
 
 
@@ -64,7 +73,7 @@ app.use(errorController.get404Page);
 
 mongoose
   .connect(
-    'mongodb+srv://idris:Hayindehdb2019@cluster0-sszay.mongodb.net/shop?retryWrites=true&w=majority'
+    MONGODB_URI
   )
   .then(result => {
     User.findOne().then(user => {
