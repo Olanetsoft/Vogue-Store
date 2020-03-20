@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 //Importing the error controller
 const errorController = require('./controllers/error');
@@ -30,6 +31,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//configuring the session setup
+app.use(session({
+  secret: 'my secret', //in production this should be a long string value
+  resave: false,
+  saveUninitialized: false
+}));
 
 
 //Retrieving user by Id and it only runs for incoming request
