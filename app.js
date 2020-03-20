@@ -49,6 +49,7 @@ app.use(shopRoutes);
 app.use(authRoutes);
 
 
+
 //This section below returns the default 404page when a path that doesn't exist is hit
 app.use(errorController.get404Page);
 
