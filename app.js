@@ -21,6 +21,7 @@ app.set('views', 'views')
 //adding the route configuration
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 //use bodyParser to grab the body sent via nodejs
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 //This section below uses the declare route to navigate to the pages whenever a request is sent
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 
 //This section below returns the default 404page when a path that doesn't exist is hit
