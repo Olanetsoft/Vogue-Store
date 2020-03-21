@@ -6,11 +6,17 @@ const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
     //const isLoggedIn = req.get('Cookie').split(';')[1].trim().split('=')[1];
-    res.render('auth/login', {
-        path: '/login',
-        pageTitle: 'Login',
-        errorMessage: req.flash('error')
-    });
+    let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+  res.render('auth/login', {
+    path: '/login',
+    pageTitle: 'Login',
+    errorMessage: message
+  });
 };
 
 
