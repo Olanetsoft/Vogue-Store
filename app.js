@@ -52,7 +52,7 @@ app.use(session({
 
 //Retrieving user by Id and it only runs for incoming request
 app.use((req, res, next) => {
-  if(!req.session.user){
+  if (!req.session.user) {
     return next()
   }
   User.findById(req.session.user._id)
@@ -79,18 +79,6 @@ mongoose
     MONGODB_URI
   )
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'idris',
-          email: 'max@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
     app.listen(3000);
   })
   .catch(err => {
