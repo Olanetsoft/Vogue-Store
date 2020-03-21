@@ -20,6 +20,7 @@ exports.getLogin = (req, res, next) => {
 };
 
 
+//Post login Details
 exports.PostLogin = (req, res, next) => {
     const extractedEmail = req.body.email;
     const extractedPassword = req.body.password;
