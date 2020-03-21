@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session)
 const csrf = require('csurf');
+const flashToUser = require('connect-flash');
+
 
 //Importing the error controller
 const errorController = require('./controllers/error');
@@ -56,6 +58,9 @@ app.use(session({
 //using csrf
 app.use(csrfProtection);
 
+
+//using the flash
+app.use(flashToUser());
 
 //Retrieving user by Id and it only runs for incoming request
 app.use((req, res, next) => {

@@ -8,7 +8,8 @@ exports.getLogin = (req, res, next) => {
     //const isLoggedIn = req.get('Cookie').split(';')[1].trim().split('=')[1];
     res.render('auth/login', {
         path: '/login',
-        pageTitle: 'Login'
+        pageTitle: 'Login',
+        errorMessage: req.flash('error')
     });
 };
 
@@ -20,7 +21,7 @@ exports.PostLogin = (req, res, next) => {
     User.findOne({ email: extractedEmail })
         .then(user => {
             if (!user) {
-                
+                req.flash('error', 'Invalid email or password !')
                 return res.redirect('/login')
             }
             bcrypt.compare(extractedPassword, user.password)
