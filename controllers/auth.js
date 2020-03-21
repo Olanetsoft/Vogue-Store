@@ -1,3 +1,15 @@
+//requiring nodemailer
+const nodemailer = require('nodemailer');
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'heedris2olubisi@gmail.com',
+           pass: 'Hayindeh2019@@'
+       }
+   });
+
 //requiring bcrypt for encripting password
 const bcrypt = require('bcryptjs');
 
@@ -90,8 +102,17 @@ exports.postSignup = (req, res, next) => {
                 })
         })
         .then(result => {
-            res.redirect('/login')
-        })
+            res.redirect('/login');
+            return transporter.sendMail({
+              to: email,
+              from: 'shop@node-complete.com',
+              subject: 'Signup succeeded!',
+              html: '<h1>You successfully signed up!</h1>'
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          })
         .catch(err => {
             console.log(err)
         })
