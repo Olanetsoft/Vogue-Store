@@ -52,11 +52,6 @@ exports.getSignup = (req, res, next) => {
 };
 
 
-exports.PostLogout = (req, res, next) => {
-    req.session.destroy(err => {
-        res.redirect('/');
-    });
-};
 
 exports.postSignup = (req, res, next) => {
     const email = req.body.email;
@@ -84,4 +79,12 @@ exports.postSignup = (req, res, next) => {
         .catch(err => {
             console.log(err)
         })
+};
+
+
+
+exports.PostLogout = (req, res, next) => {
+    req.session.destroy(err => {
+        res.redirect('/');
+    });
 };
