@@ -52,7 +52,10 @@ app.use(session({
 
 //Retrieving user by Id and it only runs for incoming request
 app.use((req, res, next) => {
-  User.findById('5e7233c063abc79acc96796d')
+  if(!req.session.user){
+    return next()
+  }
+  User.findById(req.session.user._id)
     .then(user => {
       req.user = user;
       next();

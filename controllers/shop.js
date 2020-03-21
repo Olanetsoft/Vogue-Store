@@ -79,7 +79,7 @@ exports.postCart = (req, res, next) => {
 //This deletes CART by id 
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  req.session.user
+  req.user
     .removeFromCart(prodId)
     .then(result => {
       res.redirect('/cart');
@@ -89,7 +89,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
 
 exports.postOrder = (req, res, next) => {
-  req.session.user
+  req.user
     .populate('cart.items.productId')
     .execPopulate()
     .then(user => {
