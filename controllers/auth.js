@@ -189,3 +189,57 @@ exports.postReset = (req, res, next) => {
           });
     })
 };
+
+exports.getNewPassword = (req, res, next) => {
+    const tokenGotten = req.params.token;
+    User.findOne({ resetToken: tokenGotten, resetTokenExpiration: { $gt: Date.now() } })
+      .then(user => {
+        let message = req.flash('error');
+        if (message.length > 0) {
+          message = message[0];
+        } else {
+          message = null;
+        }
+        res.render('auth/new-password', {
+          path: '/new-password',
+          pageTitle: 'New Password',
+          errorMessage: message,
+          userId: user._id.toString(),
+          passwordToken: tokenGotten
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+};
+
+exports.postNewPassword = (req, res, next) => {
+    const theNewPassword = req.body.password;
+  const theNewUserId = req.body.userId;
+  const theNewPasswordToken = req.body.passwordToken;
+  let resetUser;
+
+  User.findOne({
+    resetToken: theNewPasswordToken,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: theNewUserId
+  })
+    .then(user => {
+      resetUser = user;
+      return bcrypt.hash(theNewPassword, 12);
+    })
+    .then(hashedPassword => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then(result => {
+      res.redirect('/login');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+
