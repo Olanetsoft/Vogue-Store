@@ -70,7 +70,7 @@ exports.postEditProduct = (req, res, next) => {
 
   Product.findById(prodId)
     .then(product => {
-      if (productId.userId.toString() !== req.user._id.toString() ) {
+      if (product.userId.toString() !== req.user._id.toString() ) {
         return res.redirect('/');
       }
       product.title = updatedTitle;
