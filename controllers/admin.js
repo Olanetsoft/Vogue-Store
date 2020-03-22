@@ -86,8 +86,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProductsList = (req, res, next) => {
   Product
-    .find()//mongoose
-    //.populate('userId')
+    .find({userId: req.user._id})//mongoose
     .then(products => {
       res.render('admin/products-list', {
         prods: products,
