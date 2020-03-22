@@ -2,13 +2,13 @@
 const nodemailer = require('nodemailer');
 
 
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//            user: '',
-//            pass: ''
-//        }
-//    });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'naddad1111@gmail.com',
+           pass: 'naddad1234@'
+       }
+   });
 
 // const mailOptions = {
 //   from: 'sender@email.com', // sender address
@@ -91,29 +91,41 @@ exports.postSignup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
-
     User.findOne({ email: email })
-        .then(userDoc => {
-            if (userDoc) {
-                req.flash('error', 'Email already exist Bro!')
-                return res.redirect('/signup')
-            }
-            return bcrypt.hash(password, 12)
-                .then(hashedPassword => {
-                    const user = new User({
-                        email: email,
-                        password: hashedPassword,
-                        cart: { items: [] }
-                    });
-                    return user.save();
-                })
-        })
-        .then(result => {
-            res.redirect('/login')
-        })
-        .catch(err => {
-            console.log(err)
-        })
+      .then(userDoc => {
+        if (userDoc) {
+          req.flash(
+            'error',
+            'E-Mail exists already, please pick a different one.'
+          );
+          return res.redirect('/signup');
+        }
+        return bcrypt
+          .hash(password, 12)
+          .then(hashedPassword => {
+            const user = new User({
+              email: email,
+              password: hashedPassword,
+              cart: { items: [] }
+            });
+            return user.save();
+          })
+          .then(result => {
+            res.redirect('/login');
+            return transporter.sendMail({
+              to: email,
+              from: 'shop@node-complete.com',
+              subject: 'Signup succeeded!',
+              html: '<h1>You successfully signed up!</h1>'
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
 };
 
 
@@ -137,3 +149,4 @@ exports.getReset = (req, res, next) => {
         errorMessage: message
     });
 };
+
