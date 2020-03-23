@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 //importing express validator
-const { expressValidator } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 
 
 
@@ -101,7 +101,7 @@ exports.postSignup = (req, res, next) => {
     const confirmPassword = req.body.confirmPassword;
 
     //get the error express validator might have stored
-    const errors = expressValidator(req);
+    const errors = validationResult(req);
     if (!errors.isEmpty()){
 
       return res.status(422)
