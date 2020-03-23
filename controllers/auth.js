@@ -1,6 +1,11 @@
 //requiring nodemailer
 const nodemailer = require('nodemailer');
 
+//importing express validator
+const { expressValidator } = require('express-validator/check');
+
+
+
 //library for generating token/secure/unique
 const crypto = require('crypto');
 
@@ -94,6 +99,18 @@ exports.postSignup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
+
+    //get the error express validator might have stored
+    const errors = expressValidator(req);
+    if (!errors.isEmpty()){
+
+      return res.status(422)
+      .render('auth/signup', {
+        path: '/signup',
+        pageTitle: 'Signup',
+        errorMessage: errors.array()[0].msg
+    });;
+    }
     User.findOne({ email: email })
       .then(userDoc => {
         if (userDoc) {
