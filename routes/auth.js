@@ -3,6 +3,11 @@ const express = require('express');
 //importing express validator
 const { check, body } = require('express-validator/check');
 
+
+//Importing User
+const User = require('../models/user');
+
+
 const authController = require('../controllers/auth');
 
 const router = express.Router();

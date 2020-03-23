@@ -52,6 +52,18 @@ exports.PostLogin = (req, res, next) => {
   const extractedEmail = req.body.email;
   const extractedPassword = req.body.password;
 
+  //get the error express validator might have stored
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+
+    return res.status(422)
+      .render('auth/login', {
+        path: '/login',
+        pageTitle: 'login',
+        errorMessage: errors.array()[0].msg
+      });
+  }
+
   User.findOne({ email: extractedEmail })
     .then(user => {
       if (!user) {
@@ -89,7 +101,12 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'Signup',
-    errorMessage: message
+    errorMessage: message,
+    oldInput: {
+      email: "",
+      password: "",
+      confirmPassword: ""
+    }
   });
 };
 
@@ -107,7 +124,14 @@ exports.postSignup = (req, res, next) => {
       .render('auth/signup', {
         path: '/signup',
         pageTitle: 'Signup',
-        errorMessage: errors.array()[0].msg
+        errorMessage: errors.array()[0].msg,
+
+        //this holds the old user input
+        oldInput: {
+          email: email,
+          password: password,
+          confirmPassword: req.body.confirmPassword
+        }
       });
   }
   bcrypt
