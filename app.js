@@ -38,6 +38,21 @@ const fileStorage = multer.diskStorage({
    }
 });
 
+
+//This is to filter the type of file that can be uploaded
+const theFileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+
 //set this value globally in our application
 app.set('view engine', 'ejs');
 app.set('views', 'views')
@@ -53,7 +68,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 //using multer..
-app.use(multer({storage: fileStorage}).single('image'));
+app.use(multer({ storage: fileStorage, fileFilter: theFileFilter }).single('image'));
 
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
