@@ -21,9 +21,11 @@ exports.getAddedProduct = (req, res, next) => {
 exports.postAddedProduct = (req, res, next) => {
   //this section below get the request details from the form
   const title = req.body.title;
-  const imageUrl = req.body.image;
+  const imageUrl = req.file;
   const price = req.body.price;
   const description = req.body.description;
+
+  console.log(imageUrl);
   const errors = validationResult(req);
 
   //If it has error

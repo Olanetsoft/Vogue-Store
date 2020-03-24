@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session)
 const csrf = require('csurf');
 const flashToUser = require('connect-flash');
+const multer = require('multer');
 
 
 //Importing the error controller
@@ -27,6 +28,15 @@ const store = new MongoDBStore({
 //Initialize csrf protection
 const csrfProtection = csrf();
 
+//this is a storage that can be used with multer
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+   },
+   filename: (req, file, cb) => {
+     cb(null, new Date().toISOString() + '-' + file.originalname);
+   }
+});
 
 //set this value globally in our application
 app.set('view engine', 'ejs');
@@ -42,6 +52,8 @@ const authRoutes = require('./routes/auth');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
+//using multer..
+app.use(multer({storage: fileStorage}).single('image'));
 
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
