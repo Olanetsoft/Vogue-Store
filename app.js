@@ -103,6 +103,12 @@ app.use('/500', errorController.get500Page);
 //This section below returns the default 404page when a path that doesn't exist is hit
 app.use(errorController.get404Page);
 
+//this is a global error declaration when big error hits
+app.use((error, req, res, next) => {
+  // res.status(error.httpStatusCode).render(...);
+  res.redirect('/500');
+});
+
 mongoose
   .connect(
     MONGODB_URI

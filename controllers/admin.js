@@ -63,7 +63,10 @@ exports.postAddedProduct = (req, res, next) => {
     })
     .catch(err => {
       //console.log(err)
-      res.redirect('/500');
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -90,9 +93,15 @@ exports.getEditProduct = (req, res, next) => {
         validationErrors: []
       });
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      //console.log(err)
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);}
+      )
 };
-
+ 
 //post edited product to db
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
@@ -137,7 +146,13 @@ exports.postEditProduct = (req, res, next) => {
           res.redirect('/admin/products-list');
         })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      //console.log(err)
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);}
+      )
 
 };
 
