@@ -20,6 +20,24 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
+exports.getIndex = (req, res, next) => {
+  Product.find()//mongoose
+    .then(products => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/'
+      });
+    })
+    .catch(err => {
+      //console.log(err)
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
 exports.getProductById = (req, res, next) => {
   //This gets the product request query params from shop route
   const theProdId = req.params.productId;
@@ -41,23 +59,7 @@ exports.getProductById = (req, res, next) => {
 };
 
 
-exports.getIndex = (req, res, next) => {
-  Product.find()//mongoose
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/'
-      });
-    })
-    .catch(err => {
-      //console.log(err)
-      //res.redirect('/500');
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
-};
+
 
 
 

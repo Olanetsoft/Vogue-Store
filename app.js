@@ -62,6 +62,8 @@ app.use(csrfProtection);
 //using the flash
 app.use(flashToUser());
 
+
+
 //Retrieving user by Id and it only runs for incoming request
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -79,6 +81,8 @@ app.use((req, res, next) => {
       throw new Error(err);
     });
 });
+
+
 
 //to set local variable that are passed into views
 app.use((req, res, next) => {
