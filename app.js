@@ -38,7 +38,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-//use bodyParser to grab the body sent via nodejs
+//use bodyParser to grab the body sent via nodejs WITH URLENCODED MEANING TEXT BASE
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

@@ -23,8 +23,8 @@ router.post('/add-product',[
     .isString()
     .isLength({min: 3})
     .trim(),
-    body('imageUrl', 'Oops! Not a valid URL')
-    .isURL(),
+    // body('imageUrl', 'Oops! Not a valid URL')
+    // .isURL(),
     body('price', 'Oops! Not a valid price')
     .isFloat(),
     body('description', 'Oops! Not valid for a description')
