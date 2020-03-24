@@ -22,10 +22,12 @@ router.post('/reset-password', authController.postReset);
 router.post('/login', [
     body('email')
         .isEmail()
-        .withMessage('Please enter a valid email address.'),
-    body('password', 'Password has to be valid.')
+        .withMessage('Please enter a valid email address.')
+        .normalizeEmail(),
+    body('password', 'Password not valid !')
         .isLength({ min: 5 })
         .isAlphanumeric()
+        .trim()
 ], authController.PostLogin);
 
 router.post('/signup',
@@ -46,13 +48,17 @@ router.post('/signup',
                             );
                         }
                     });
-            }),
+            })
+            .normalizeEmail(),
 
         body('password',
             'Valid password Required with at least 5 characters')
             .isLength({ min: 5 })
-            .isAlphanumeric(),
-        body('confirmPassword').custom(({ value }, { req }) => {
+            .isAlphanumeric()
+            .trim(),
+        body('confirmPassword')
+        .trim()
+        .custom(({ value }, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Password have to match!');
             }
