@@ -32,7 +32,7 @@ exports.postAddedProduct = (req, res, next) => {
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
       path: '/admin/edit-product',
-      editing: false,
+      editing: true,
       hasError: true,
       product: {
         title: title,
