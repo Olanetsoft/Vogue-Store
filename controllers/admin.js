@@ -167,7 +167,14 @@ exports.getProductsList = (req, res, next) => {
         path: 'admin/products-list'
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      //console.log(err)
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);}
+      );
+
 };
 
 
@@ -179,5 +186,12 @@ exports.postDeleteProduct = (req, res, next) => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products-list');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      //console.log(err)
+      //res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);}
+      );
+
 };
