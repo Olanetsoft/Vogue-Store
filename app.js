@@ -69,10 +69,15 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then(user => {
+      if(!user){
+        return next();
+      }
       req.user = user;
       next();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      throw new Error(err);
+    });
 });
 
 //to set local variable that are passed into views
@@ -89,6 +94,10 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
+
+
+//This section below returns the default 500page when a path hit an Error
+app.use('/500', errorController.get500Page);
 
 
 //This section below returns the default 404page when a path that doesn't exist is hit

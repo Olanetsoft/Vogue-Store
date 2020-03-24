@@ -31,7 +31,7 @@ exports.postAddedProduct = (req, res, next) => {
     //console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
-      path: '/admin/edit-product',
+      path: '/admin/add-product',
       editing: true,
       hasError: true,
       product: {
@@ -45,7 +45,7 @@ exports.postAddedProduct = (req, res, next) => {
     });
   }
 
-//if it doesn't
+  //if it doesn't
   const product = new Product(
     {
       title: title,
@@ -61,7 +61,10 @@ exports.postAddedProduct = (req, res, next) => {
       console.log('Created Product')
       res.redirect('/admin/products-list')
     })
-    .catch(err => { console.log(err) });
+    .catch(err => {
+      //console.log(err)
+      res.redirect('/500');
+    });
 };
 
 
@@ -121,7 +124,7 @@ exports.postEditProduct = (req, res, next) => {
 
   return Product.findById(prodId)
     .then(product => {
-      if (product.userId.toString() !== req.user._id.toString() ) {
+      if (product.userId.toString() !== req.user._id.toString()) {
         return res.redirect('/');
       }
       product.title = updatedTitle;
@@ -156,7 +159,7 @@ exports.getProductsList = (req, res, next) => {
 //This deletes product by id 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteOne({_id: prodId, userId: req.user._id})
+  Product.deleteOne({ _id: prodId, userId: req.user._id })
     .then(() => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products-list');
