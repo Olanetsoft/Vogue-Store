@@ -69,8 +69,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
-//This is use to statically generate files in the public folder using the path declared
+//This is use to statically generate files in the public and images folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 //Initializing multer
