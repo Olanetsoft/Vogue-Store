@@ -9,5 +9,5 @@ exports.get500Page = (req, res, next) => {
     res.status(500).render('500', 
     {pageTitle: 'Error !', 
     path: '/500',
-    isAuthenticated: req.isLoggedIn})
+    isAuthenticated: req.isLoggedIn});
 };  

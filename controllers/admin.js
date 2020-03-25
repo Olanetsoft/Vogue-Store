@@ -2,7 +2,7 @@ const mongodb = require('mongodb');
 const Product = require('../models/product');
 
 //importing express validator
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 exports.getAddedProduct = (req, res, next) => {
 
@@ -21,16 +21,13 @@ exports.getAddedProduct = (req, res, next) => {
 exports.postAddedProduct = (req, res, next) => {
   //this section below get the request details from the form
   const title = req.body.title;
-  const imageUrl = req.file;
+  const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
-
-  console.log(imageUrl);
+  //console.log(imageUrl)
   const errors = validationResult(req);
 
-  //If it has error
-  if (!errors.isEmpty()) {
-    //console.log(errors.array());
+  if(!image){
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
       path: '/admin/add-product',
@@ -38,7 +35,24 @@ exports.postAddedProduct = (req, res, next) => {
       hasError: true,
       product: {
         title: title,
-        imageUrl: imageUrl,
+        price: price,
+        description: description
+      },
+      errorMessage: 'Attached file is not an image !',
+      validationErrors: []
+    });
+  }
+
+  //If it has error
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    return res.status(422).render('admin/edit-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      editing: true,
+      hasError: true,
+      product: {
+        title: title,
         price: price,
         description: description
       },
@@ -47,6 +61,7 @@ exports.postAddedProduct = (req, res, next) => {
     });
   }
 
+  const imageUrl = image.path;
   //if it doesn't
   const product = new Product(
     {
@@ -109,8 +124,9 @@ exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
+  const updatedImage = req.file;
   const updatedDesc = req.body.description;
+
   const errors = validationResult(req);
 
 
@@ -124,7 +140,6 @@ exports.postEditProduct = (req, res, next) => {
       hasError: true,
       product: {
         title: updatedTitle,
-        imageUrl: updatedImageUrl,
         price: updatedPrice,
         description: updatedDesc
       },
@@ -140,8 +155,13 @@ exports.postEditProduct = (req, res, next) => {
       }
       product.title = updatedTitle;
       product.price = updatedPrice;
-      product.description = updatedDesc
-      product.imageUrl = updatedImageUrl;
+      product.description = updatedDesc;
+
+      if(updatedImage) {
+        product.imageUrl = updatedImage.path;
+      }
+
+      
       return product.save()//mongoose
         .then(result => {
           console.log("UPDATED PRODUCT!");

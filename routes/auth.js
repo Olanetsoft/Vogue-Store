@@ -1,7 +1,7 @@
 const express = require('express');
 
 //importing express validator
-const { check, body } = require('express-validator/check');
+const { check, body } = require('express-validator');
 
 
 //Importing User

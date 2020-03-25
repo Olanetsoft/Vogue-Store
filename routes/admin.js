@@ -1,7 +1,7 @@
 const path = require('path');
 
 //importing express validator
-const { body } = require('express-validator/check');
+const { body } = require('express-validator');
 
 const adminController = require('../controllers/admin');
 
@@ -18,19 +18,19 @@ router.get('/add-product', isAuth, adminController.getAddedProduct);
 router.get('/products-list' ,isAuth , adminController.getProductsList);
 
 // //admin/add-product => POST
-router.post('/add-product',[
+router.post('/add-product',
+[
     body('title', 'Oops! Not valid for a Title')
     .isString()
     .isLength({min: 3})
     .trim(),
-    // body('imageUrl', 'Oops! Not a valid URL')
-    // .isURL(),
     body('price', 'Oops! Not a valid price')
     .isFloat(),
     body('description', 'Oops! Not valid for a description')
     .isLength({min: 5, max: 400})
     .trim()
-], isAuth, adminController.postAddedProduct);
+],
+ isAuth, adminController.postAddedProduct);
 
 // //admin/edit-product => GET BY QUERY PARAMS
 router.get('/edit-product/:productId', isAuth,adminController.getEditProduct);
@@ -41,8 +41,6 @@ router.post('/edit-product',[
     .isAlphanumeric()
     .isLength({min: 3})
     .trim(),
-    body('imageUrl', 'Oops! Not a valid URL')
-    .isURL(),
     body('price', 'Oops! Not a valid price')
     .isFloat(),
     body('description', 'Oops! Not valid for a description')

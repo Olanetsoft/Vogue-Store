@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 //importing express validator
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 
 

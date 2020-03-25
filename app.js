@@ -28,19 +28,20 @@ const store = new MongoDBStore({
 //Initialize csrf protection
 const csrfProtection = csrf();
 
-//this is a storage that can be used with multer
+
+//declare the file storage procedure
+const today = new Date();
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');
-   },
-   filename: (req, file, cb) => {
-     cb(null, new Date().toISOString() + '-' + file.originalname);
-   }
+  },
+  filename: (req, file, cb) => {
+    cb(null, today.getHours() + "-" + today.getMinutes()+ "-" + today.getSeconds() + '-' + file.originalname);
+  }
 });
 
-
-//This is to filter the type of file that can be uploaded
-const theFileFilter = (req, file, cb) => {
+//To filter the file type
+const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
     file.mimetype === 'image/jpg' ||
@@ -58,20 +59,22 @@ app.set('view engine', 'ejs');
 app.set('views', 'views')
 
 
-//adding the route configuration
+//adding the route configuration 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-//use bodyParser to grab the body sent via nodejs WITH URLENCODED MEANING TEXT BASE
+//use bodyParser to grab the body sent via nodejs
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-//using multer..
-app.use(multer({ storage: fileStorage, fileFilter: theFileFilter }).single('image'));
 
 //This is use to statically generate files in the public folder using the path declared
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//Initializing multer
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 
 
 //configuring the session setup
@@ -91,25 +94,6 @@ app.use(flashToUser());
 
 
 
-//Retrieving user by Id and it only runs for incoming request
-app.use((req, res, next) => {
-  if (!req.session.user) {
-    return next()
-  }
-  User.findById(req.session.user._id)
-    .then(user => {
-      if(!user){
-        return next();
-      }
-      req.user = user;
-      next();
-    })
-    .catch(err => {
-      throw new Error(err);
-    });
-});
-
-
 
 //to set local variable that are passed into views
 app.use((req, res, next) => {
@@ -117,7 +101,29 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated= req.session.isLoggedIn,
   res.locals.csrfToken= req.csrfToken();
   next()
-})
+});
+
+
+//Retrieving user by Id and it only runs for incoming request
+app.use((req, res, next) => {
+  // throw new Error('Sync Dummy');
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then(user => {
+      if (!user) {
+        return next();
+      }
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      next(new Error(err));
+    });
+});
+
+
 
 
 //This section below uses the declare route to navigate to the pages whenever a request is sent
@@ -137,7 +143,11 @@ app.use(errorController.get404Page);
 //this is a global error declaration when big error hits
 app.use((error, req, res, next) => {
   // res.status(error.httpStatusCode).render(...);
-  res.redirect('/500');
+  // res.redirect('/500');
+  res.status(500).render('500', 
+    {pageTitle: 'Error !', 
+    path: '/500',
+    isAuthenticated: req.isLoggedIn})
 });
 
 mongoose
