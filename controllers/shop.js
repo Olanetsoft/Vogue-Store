@@ -4,6 +4,9 @@ const path = require('path');
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+//defining items to be fetched per page
+const iITEMS_PER_PAGE = 2;
+
 
 const PDFDOCUMENT = require('pdfkit');
 
@@ -26,7 +29,11 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
+  const page = req.query.page;
+
   Product.find()//mongoose
+    .skip((page - 1) * iITEMS_PER_PAGE)
+    .limit(iITEMS_PER_PAGE)
     .then(products => {
       res.render('shop/index', {
         prods: products,
