@@ -4,6 +4,8 @@ const path = require('path');
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+const stripe = require('stripe')('sk_test_BMD9aaviqJzK0hlROg2KMRbD');
+
 //defining items to be fetched per page
 const ITEMS_PER_PAGE = 2;
 
