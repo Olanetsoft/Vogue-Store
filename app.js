@@ -59,6 +59,8 @@ app.set('view engine', 'ejs');
 app.set('views', 'views')
 
 
+
+
 //adding the route configuration 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -86,8 +88,6 @@ app.use(session({
   store: store
 }));
 
-//using csrf
-app.use(csrfProtection);
 
 
 //using the flash
@@ -99,8 +99,7 @@ app.use(flashToUser());
 //to set local variable that are passed into views
 app.use((req, res, next) => {
   
-  res.locals.isAuthenticated= req.session.isLoggedIn,
-  res.locals.csrfToken= req.csrfToken();
+  res.locals.isAuthenticated= req.session.isLoggedIn
   next()
 });
 
@@ -122,6 +121,27 @@ app.use((req, res, next) => {
     .catch(err => {
       next(new Error(err));
     });
+});
+
+
+
+
+
+const shopController = require('./controllers/shop');
+//This is imported to check if the user is authenticated else the route is blocked
+const isAuth = require('./middleware/is-auth');
+//this was moved here so as not to use csrf
+app.post('/create-order',isAuth, shopController.postOrder);
+
+
+
+//using csrf //This was moved here so as to disable csrf for create=order route
+app.use(csrfProtection);
+
+//to set local variable that are passed into views
+app.use((req, res, next) => {
+  res.locals.csrfToken= req.csrfToken();
+  next()
 });
 
 
