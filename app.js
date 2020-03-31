@@ -19,7 +19,7 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-sszay.mongodb.net/${process.env.MONGO_DEFAULT_DB}`;
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-sszay.mongodb.net/${process.env.MONGO_DEFAULT_DB}?retryWrites=true&w=majority`;
 
 const app = express();
 const store = new MongoDBStore({
