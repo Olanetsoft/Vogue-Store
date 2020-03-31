@@ -7,7 +7,7 @@ const Order = require('../models/order');
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 //defining items to be fetched per page
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 4;
 
 
 const PDFDOCUMENT = require('pdfkit');
