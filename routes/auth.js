@@ -58,7 +58,7 @@ router.post('/signup',
             .trim(),
         body('confirmPassword')
         .trim()
-        .custom(({ value }, { req }) => {
+        .custom(( value , { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Password have to match!');
             }
