@@ -7,6 +7,8 @@ const MongoDBStore = require('connect-mongodb-session')(session)
 const csrf = require('csurf');
 const flashToUser = require('connect-flash');
 const multer = require('multer');
+const helmet = require('helmet'); 
+const compression = require('compression');
 
 
 //Importing the error controller
@@ -65,6 +67,12 @@ app.set('views', 'views')
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+
+//using helmet to secure response
+app.use(helmet());
+
+//using compression
+app.use(compression());
 
 //use bodyParser to grab the body sent via nodejs
 app.use(bodyParser.urlencoded({ extended: false }));
