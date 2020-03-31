@@ -140,9 +140,10 @@ exports.getSignup = (req, res, next) => {
     oldInput: {
       email: "",
       password: "",
-      confirmPassword: "",
-      validationErrors: []
-    }
+      confirmPassword: ""
+     
+    },
+    validationErrors: []
   });
 };
 
