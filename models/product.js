@@ -24,7 +24,9 @@ const productSchema = new Schema({
     ref: 'User',
     required: true
   }
-});
+},
+    { timestamps: true }//Updated at and created at will automatically be added to the database each time an item is posted
+);
 
 
 module.exports = mongoose.model('Product', productSchema);

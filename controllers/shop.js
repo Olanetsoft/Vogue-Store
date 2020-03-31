@@ -22,6 +22,8 @@ exports.getProducts = (req, res, next) => {
     .then(numProducts => {
       totalItems = numProducts;
       return Product.find()
+      .populate('creator')//to also populate the full object for that creator
+            .sort({createdAt: -1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -70,6 +72,8 @@ exports.getIndex = (req, res, next) => {
     .then(numProducts => {
       totalItems = numProducts;
       return Product.find()
+      .populate('creator')//to also populate the full object for that creator
+            .sort({createdAt: -1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
