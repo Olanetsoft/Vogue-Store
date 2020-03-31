@@ -3,6 +3,8 @@
         "MONGO_USER": "idris",
         "MONGO_PASSWORD": "Hayindehdb2019",
         "MONGO_DEFAULT_DB": "shop",
-        "STRIPE_KEY": "sk_test_7Ja5H6YOybOol7TGm8vDtEo700ZiEZK2xd"
+        "STRIPE_KEY": "sk_test_7Ja5H6YOybOol7TGm8vDtEo700ZiEZK2xd",
+        "USERNAME": "naddad1111@gmail.com",
+        "PASSWORD": "naddad1234@"
     }
 }
