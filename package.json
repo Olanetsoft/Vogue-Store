@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Olanetsoft/Learn-Node#readme",
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.21"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
